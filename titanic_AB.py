@@ -31,7 +31,23 @@ train1['Age'] = train1['Age'].apply(lambda x: age_trans(x))
 #print(age_train.head(50))
 #print(train1['Age'].describe())
 
-#
+#train2['Sex'] = train2['Sex'].astype('category').cat.codes
+#train2['Embarked'] = train2['Embarked'].astype('category').cat.codes
+
+#cat_dict = {}
+#cat_dict['Sex'] = {}
+#cat_dict['Embarked'] = {}
+#for i in range(len(ip_data)):
+#cat_dict['Sex'][df1.loc[i,'Sex']] = train2.loc[i, 'Sex']
+#cat_dict['Embarked'][df1.loc[i,'Embarked']] = train2.loc[i, 'Embarked']
+
+#train3 = train2.drop(['PassengerId', 'Name','Ticket', 'Cabin'],1)
+#train = pd.DataFrame(train3).astype(float)
+#scaler = MinMaxScaler()
+
+#train_scaled = pd.DataFrame(scaler.fit_transform(train))
+
+#print(train_scaled)
 # train3 = train2.drop(['PassengerId','Name','Sex','Ticket', 'Cabin', 'Embarked'],1)
 # train = pd.DataFrame(train3).astype(float)
 #
