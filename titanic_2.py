@@ -15,6 +15,7 @@ print(train1['Age'].describe())
 # check distribution per variable (0.1 percentiles increments)
 train1.quantile([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1])
 
+
 # Data conversion
 
 #convert age into bands
@@ -79,6 +80,65 @@ def band_fare(i):
 train1['Fare'] = train1['Fare'].apply(lambda x: band_fare(x))
 
 print(train1.head(20))
+
+# drop non required variables (Embarked and Cabin to be explored later)
+
+train2 = train1.drop(['PassengerId','Name','Ticket','Embarked','Cabin'],1)
+
+# drop rows with nans
+train3 = train2.dropna(0)
+
+#check size of retained instances after nans removal
+print(len(train2))
+print(len(train3))
+
+
+
+# check correlation among all variables:
+
+print(train3.corr())
+
+
+from sklearn.model_selection import cross_val_score
+from sklearn.tree import DecisionTreeClassifier
+
+clf = DecisionTreeClassifier(criterion= 'gini', max_depth=8)
+
+X = train3.drop('Survived', 1)
+y = train3['Survived']
+
+
+
+score = cross_val_score(clf, X, y, cv=10)
+
+print(score)
+
+from sklearn.decomposition import PCA
+
+Class = train3[['Pclass','Fare']]
+
+pca = PCA(n_components=1)
+pca.fit(Class)
+singular_value= pca.transform(Class)
+
+print(pca.explained_variance_ratio_)
+print(singular_value)
+# Tree Visualization
+
+# from sklearn import tree
+# import graphviz
+#
+# clf = tree.DecisionTreeClassifier()
+# clf = clf.fit(X, y)
+#
+# X_lab = X.columns.values
+# y_lab = 'Survived'
+#
+# dot_data = tree.export_graphviz(clf, out_file=None, feature_names=X_lab, class_names=y_lab, filled=True)
+# graph = graphviz.Source(dot_data)
+# graph.render("Titanic")
+
+
 
 #train2['Sex'] = train2['Sex'].astype('category').cat.codes
 
